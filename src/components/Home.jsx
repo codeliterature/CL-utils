@@ -1,93 +1,28 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Bar } from "react-chartjs-2";
-import "chart.js/auto";
-import Parameter from "./Parameter";
-
+import React from "react";
+import Carousel from "./Carousel";
 const Home = () => {
-  const chartRef = useRef(null);
-  const link = useRef(null);
-  const [title, setTitle] = useState("My Chart");
-  const [data, setData] = useState([]);
-  const [chartData, setChartData] = useState({
-    labels: [],
-    datasets: [
-      {
-        label: "",
-        data: [],
-        backgroundColor: ["rgb(75,192,192)"],
-      },
-    ],
-  });
-  const [chartOptions, setChartOptions] = useState({
-    plugins: {
-      title: {
-        display: true,
-        text: "Users Gained between 2016-2020",
-      },
-      legend: {
-        display: false,
-      },
-    },
-  });
-
-  useEffect(() => {
-    setChartData((prevChartData) => ({
-      ...prevChartData,
-      labels: data[0],
-      datasets: [
-        {
-          ...prevChartData.datasets[0],
-          data: data[1],
-        },
-      ],
-    }));
-  }, [data]);
-
-  useEffect(() => {
-    setChartOptions((prevOptions) => ({
-      ...prevOptions,
-      plugins: {
-        ...prevOptions.plugins,
-        title: {
-          ...prevOptions.plugins.title,
-          text: title,
-        },
-      },
-    }));
-  }, [title]);
-
-  const getData = (arr1, arr2) => {
-    setData([arr1, arr2]);
-  };
-
-  const getTitle = (val) => {
-    setTitle(val);
-  };
-
-  const resetData = (arr1, arr2) => {
-    setData([arr1, arr2]);
-  };
-
-  const handleDownload = () => {
-    let canvas = chartRef.current.canvas;
-    let url = canvas.toDataURL("image/jpeg");
-
-    link.current.download = "Chart.jpg";
-    link.current.href = url;
-  };
-
   return (
-    <div className="min-h-screen">
-      <Parameter getData={getData} resetData={resetData} getTitle={getTitle} />
-      <Bar ref={chartRef} data={chartData} options={chartOptions} />
+    <div className="dark:text-white min-h-[80vh] flex flex-col space-y-4">
+      <div className="flex flex-col items-center p-4 space-y-4 m-2">
+        <h1 className="dark:text-dark text-light text-4xl font-bold tracking-wider">
+          CL Utils
+        </h1>
+        <p className="text-lg text-justify">
+          Welcome to our utility tools site, where you'll discover a suite of
+          helpful resources. Explore interactive graphs for visualizing data,
+          utilize our efficient currency exchange tool, and access a variety of
+          other practical utilities designed to simplify your financial and
+          analytical needs.
+        </p>
+      </div>
 
-      <a
-        ref={link}
-        onClick={handleDownload}
-        className="bg-light dark:bg-dark px-4 py-2 text-white dark:text-black mt-2  w-[95%] m-auto text-center rounded cursor-pointer block"
-      >
-        Download
-      </a>
+      <div>
+        <h2 className="text-center text-3xl text-light dark:text-dark font-bold tracking-wider">Tools Available</h2>
+        <div>
+          <Carousel />
+        </div>
+      </div>
+      <div></div>
     </div>
   );
 };

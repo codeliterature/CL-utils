@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 const Parameter = ({ getData, resetData, getTitle }) => {
+  const [drop, setDrop] = useState("Bar")
+  const [val, setVal] = useState("")
   const [id, setId] = useState([1, 2, 3, 4]);
-
+  
   const [xVal, setxValues] = useState({});
 
   const [yVal, setyValues] = useState({});
@@ -30,23 +32,29 @@ const Parameter = ({ getData, resetData, getTitle }) => {
     setId([...id, id.length + 1]);
   };
 
+  const setDown = (e) => {
+    setDrop(e.target.value)
+    console.log(drop);
+  }
   const submit = () => {
     const x = Object.values(xVal);
     const y = Object.values(yVal);
-    getData(x, y);
     getTitle(name);
+    getData(x, y, true, drop);
+
   };
 
   const reset = () => {
     setxValues({});
     setyValues({});
     setId([1, 2, 3, 4]);
-    resetData();
+    resetData(false);
     getTitle("My Chart");
   };
 
   return (
     <div className="dark:text-white m-auto flex flex-col items-center m-4 p-2 space-y-4">
+      <div className="flex space-x-3 p-2">
       <input
         type="text"
         className="td-class border"
@@ -54,6 +62,14 @@ const Parameter = ({ getData, resetData, getTitle }) => {
         onChange={addName}
         value={name}
       />
+      <select className="dark:bg-dark dark:text-black bg-light text-white border w-[90%] rounded-sm" onChange={setDown}>
+        
+        <option value="Bar">Bar</option>
+        <option value="Line">Line</option>
+        <option value="Pie">Pie</option>
+        <option value="Doughnut">Doughnut</option>
+      </select>
+      </div>
       <table className="table-fixed p-8">
         <thead>
           <tr className="border dark:border-white rounded">
