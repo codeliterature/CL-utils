@@ -9,11 +9,14 @@ import { Link } from "react-router-dom";
 
 const Header = ({changeTheme}) => {
   const [isOpen, setState] = useState(false);
- const [isDark, setDark] = useState(false)
+ const [isDark, setDark] = useState(true)
+  
   const setTheme = () => {
+    
     setDark(!isDark)
     changeTheme(isDark)
   }
+  
   return (
     <nav className="py-2">
       <div className="flex justify-between items-center px-2">
